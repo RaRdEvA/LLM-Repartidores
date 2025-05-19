@@ -1,19 +1,47 @@
 # Asistente para Choferes 🚚
 
+## 👤 Autor
+
+**Javier Castillo Millán**  
+Clave: 169589  
+Proyecto desarrollado como parte de la materia de Temas Selectos de Análisis de Datos del ITAM 2025
+
+## Descripción
+
 Este proyecto implementa un asistente virtual especializado para choferes de transporte, utilizando Azure OpenAI para proporcionar información inmediata sobre normativas, reglamentos y procedimientos ante situaciones como detenciones por autoridades viales.
 
+- El notebook funcionando se encuentra en: [assistant.ipynb](./assistant.ipynb)
+- Para un tutorial sobre como configurar azure: [Tutorial Azure](./tutorial-azure-config.md)
+- Un ejemplo de acceso a Azure de forma segura con autenticación: [AZURE AI FOUNDRY.ipynb](./AZURE%20AI%20FOUNDRY.ipynb)
+
 ## 📋 Índice
-- [Descripción General](#descripción-general)
-- [Funcionalidades](#funcionalidades)
-- [Configuración del Entorno](#configuración-del-entorno)
-- [Estructura del Código](#estructura-del-código)
-- [Interacción con Azure Cognitive Search](#interacción-con-azure-cognitive-search)
-- [Creación de Fuente de Conocimiento en Azure AI Foundry](#creación-de-fuente-de-conocimiento-en-azure-ai-foundry)
-- [Ventajas de Seguridad con Azure AI Services](#ventajas-de-seguridad-con-azure-ai-services)
-- [Interfaz de Usuario](#interfaz-de-usuario)
-- [Uso del Asistente](#uso-del-asistente)
-- [Personalización](#personalización)
-- [Autor](#autor)
+
+- [Asistente para Choferes 🚚](#asistente-para-choferes-)
+  - [👤 Autor](#-autor)
+  - [Descripción](#descripción)
+  - [📋 Índice](#-índice)
+  - [🔍 Descripción General](#-descripción-general)
+  - [✨ Funcionalidades](#-funcionalidades)
+  - [⚙️ Configuración del Entorno](#️-configuración-del-entorno)
+  - [🏗️ Estructura del Código](#️-estructura-del-código)
+    - [1. Inicialización del Cliente de Azure OpenAI](#1-inicialización-del-cliente-de-azure-openai)
+    - [2. Definición del Papel del Asistente](#2-definición-del-papel-del-asistente)
+    - [3. Funciones para Consulta y Formateo](#3-funciones-para-consulta-y-formateo)
+      - [Función Principal de Consulta](#función-principal-de-consulta)
+      - [Formateo de Respuestas](#formateo-de-respuestas)
+  - [🔄 Interacción con Azure Cognitive Search](#-interacción-con-azure-cognitive-search)
+  - [🔄 Creación de Fuente de Conocimiento en Azure AI Foundry](#-creación-de-fuente-de-conocimiento-en-azure-ai-foundry)
+    - [1. Preparación de documentos](#1-preparación-de-documentos)
+    - [2. Creación del índice en Azure AI Search](#2-creación-del-índice-en-azure-ai-search)
+    - [3. Proceso de indexación](#3-proceso-de-indexación)
+    - [4. Integración con el script](#4-integración-con-el-script)
+  - [🔒 Ventajas de Seguridad con Azure AI Services](#-ventajas-de-seguridad-con-azure-ai-services)
+    - [Guardrails y Protecciones](#guardrails-y-protecciones)
+    - [Configuración específica en el proyecto](#configuración-específica-en-el-proyecto)
+  - [🚀 Uso del Asistente](#-uso-del-asistente)
+  - [🔧 Personalización](#-personalización)
+    - [Modificar el Papel del Asistente](#modificar-el-papel-del-asistente)
+    - [Configuración del Modelo](#configuración-del-modelo)
 
 ## 🔍 Descripción General
 
@@ -55,7 +83,7 @@ blob_sas_url_name = os.getenv("BLOB_SAS_URL_NAME")
 
 Debes crear un archivo `.env` en el directorio raíz con las siguientes variables:
 
-```
+```{env}
 SEA_KEY=tu_clave_de_azure_search
 SUB_KEY=tu_clave_de_suscripcion_azure
 ENDPOINT_NAME=https://tu-endpoint-openai.openai.azure.com
@@ -89,7 +117,7 @@ El archivo `role.md` contiene las instrucciones detalladas para el comportamient
 
 ### 3. Funciones para Consulta y Formateo
 
-#### Función Principal de Consulta:
+#### Función Principal de Consulta
 
 ```python
 def consultar_asistente(consulta, historial=None):
@@ -134,13 +162,14 @@ def consultar_asistente(consulta, historial=None):
 ```
 
 Esta función:
+
 1. Mantiene el historial de la conversación
 2. Envía la consulta al modelo de lenguaje
 3. Configura parámetros como temperatura (creatividad) y tokens máximos
 4. Conecta a Azure Cognitive Search para obtener documentos relevantes
 5. Añade la respuesta al historial de conversación
 
-#### Formateo de Respuestas:
+#### Formateo de Respuestas
 
 ```python
 def generar_html_respuesta(completion):
@@ -180,6 +209,7 @@ El proyecto utiliza Azure Cognitive Search para indexar y consultar documentos r
 ```
 
 Esta configuración:
+
 - Conecta con el índice específico `knowledgellmchoferes`
 - Utiliza autenticación por API key
 - Configura la búsqueda para recuperar hasta 20 documentos relevantes
@@ -218,6 +248,7 @@ El proyecto utiliza una fuente de conocimiento creada e indexada a través de Az
 ### 1. Preparación de documentos
 
 Los documentos de normativas, leyes y manuales se almacenan en un contenedor de Azure Blob Storage, organizados en una estructura de carpetas lógica. Esto incluye:
+
 - Normas de seguridad.pdf
 - Instructivo de contactos.pdf
 - Ley de caminos, puentes y autotransporte federal.pdf
@@ -228,7 +259,7 @@ Los documentos de normativas, leyes y manuales se almacenan en un contenedor de 
 Para crear el índice de conocimiento:
 
 1. Se accede al portal de Azure AI Foundry
-2. Se crea un nuevo recurso de AI Search 
+2. Se crea un nuevo recurso de AI Search
 3. Se configura un nuevo índice `knowledgellmchoferes` con las siguientes propiedades:
    - Campos para almacenar metadatos (título, autor, fecha)
    - Campo de contenido para el texto extraído
@@ -248,7 +279,7 @@ El proceso de indexación incluye:
 
 El script interactúa con la fuente de conocimiento a través de varias capas:
 
-```
+```{text}
 ┌─────────────────┐    ┌──────────────────┐    ┌───────────────────┐
 │                 │    │                  │    │                   │
 │ Azure OpenAI    │◄───┤ Azure AI Search  │◄───┤ Azure Blob Storage│
@@ -373,6 +404,7 @@ def interfaz_interactiva_con_historial():
 ```
 
 La interfaz incluye:
+
 - Un encabezado de aplicación con título y descripción
 - Área de conversación con desplazamiento vertical
 - Campo de entrada de texto para preguntas
@@ -418,9 +450,3 @@ completion = client.chat.completions.create(
     ...
 )
 ```
-
-## 👤 Autor
-
-**Javier Castillo Millán**  
-Clave: 169589  
-Proyecto desarrollado como parte de la materia de Temas Selectos de Análisis de Datos del ITAM 2025
