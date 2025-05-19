@@ -11,6 +11,8 @@ Proyecto desarrollado como parte de la materia de Temas Selectos de Análisis de
 Este proyecto implementa un asistente virtual especializado para choferes de transporte, utilizando Azure OpenAI para proporcionar información inmediata sobre normativas, reglamentos y procedimientos ante situaciones como detenciones por autoridades viales.
 
 - El notebook funcionando se encuentra en: [assistant.ipynb](./assistant.ipynb)
+- La presentación se encuentra en: [Presentación](./Presentación%20-%20Javier%20Castillo%20Millán%20-%20169589.pdf)
+- El vídeo se encuentra en: [Vídeo](./Vídeo%20de%20Proyecto%20-%20Javier%20Castillo%20Millán%20-%202025%2005%2018.mp4)
 - Para un tutorial sobre como configurar azure: [Tutorial Azure](./tutorial-azure-config.md)
 - Un ejemplo de acceso a Azure de forma segura con autenticación: [AZURE AI FOUNDRY.ipynb](./AZURE%20AI%20FOUNDRY.ipynb)
 
