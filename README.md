@@ -12,6 +12,7 @@ Este proyecto implementa un asistente virtual especializado para choferes de tra
 
 - La presentación se encuentra en: [Presentación](./doc/Presentacion.pdf)
 - El vídeo se encuentra en: [Vídeo](./doc/Video.mp4)
+- También puede verse en: [Google Drive](https://drive.google.com/file/d/1gVTtd1Y-fm4YbqJNeGrpdMGRCRNxpuPq/view?usp=sharing)
 - El notebook funcionando se encuentra en: [assistant.ipynb](./src/assistant.ipynb)
 - El papel del bot o "rol" se encuentra en: [role.md](./src/role.md)
 - Para un tutorial sobre como configurar azure: [Tutorial Azure](./src/tutorial-azure-config.md)
